@@ -1,0 +1,11 @@
+{
+	"name": "ng-tools",
+	"version": "0.0.1",
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		".idea",
+		"components",
+		"test.js"
+	]
+}

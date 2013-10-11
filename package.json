@@ -1,0 +1,29 @@
+{
+	"name": "ng-tools",
+	"version": "0.0.1",
+	"private": false,
+	"author": "capaj <capajj@gmail.com>",
+	"description": "adds last, first, remove, contains, isEmpty and empty to array utilizing Object.defineProperty",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/capaj/ng-tools.git"
+	},
+	"keywords": [
+		"array",
+		"array-methods",
+		"extend",
+		"sugar",
+		"syntactic sugar"
+	],
+	"license": "MIT",
+	"devDependencies": {
+		"grunt": "~0.4.1",
+		"grunt-contrib-clean": "~0.4.1",
+		"grunt-contrib-concat": "~0.3.0",
+		"grunt-contrib-copy": "~0.4.1",
+		"grunt-contrib-jshint": "~0.5.4",
+		"grunt-contrib-uglify": "~0.2.1",
+		"grunt-contrib-watch": "~0.4.3",
+		"grunt-karma": "~0.6.2"
+	}
+}
