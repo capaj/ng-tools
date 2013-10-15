@@ -1,6 +1,6 @@
 {
 	"name": "ng-tools",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"private": false,
 	"author": "capaj <capajj@gmail.com>",
 	"description": "adds last, first, remove, contains, isEmpty and empty to array utilizing Object.defineProperty",

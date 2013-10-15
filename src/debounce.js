@@ -1,6 +1,12 @@
-// debounced function is called just once after specified time
 angular.module('ng-tools').factory('debounce',['$timeout', function ($timeout) {
-	return function(fn, timeout, apply){ // debounce fn
+	/**
+	 * will cal fn once after timeout even if more than one call wdo debounced fn was made
+	 * @param {Function} fn to call debounced
+	 * @param {Number} timeout
+	 * @param {boolean} apply will be passed to $timeout as last param, if the debounce is triggering infinite digests, set this to false
+	 * @returns {Function} which you can call instead fn as if you were calling fn
+	 */
+	function debounce(fn, timeout, apply){
 		timeout = angular.isUndefined(timeout) ? 0 : timeout;
 		apply = angular.isUndefined(apply) ? true : apply; // !!default is true! most suitable to my experience
 		var nthCall = 0;
@@ -17,5 +23,6 @@ angular.module('ng-tools').factory('debounce',['$timeout', function ($timeout) {
 			})(nthCall);
 			return $timeout(later, timeout, apply);
 		};
-	};
+	}
+	return debounce;
 }]);
