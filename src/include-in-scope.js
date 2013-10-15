@@ -5,8 +5,8 @@
  *	onload attribute is evaluated when content is included, if present
  */
 angular.module('ng-tools').directive('includeInScope',
-	['$http', '$templateCache', '$anchorScroll', '$compile',
-		function($http,   $templateCache,   $anchorScroll,   $compile) {
+	['$http', '$templateCache', '$anchorScroll', '$compile', '$animate',
+		function($http,   $templateCache,   $anchorScroll,   $compile, $animate) {
 			return {
 				restrict: 'ECA',
 				terminal: true,
@@ -29,6 +29,7 @@ angular.module('ng-tools').directive('includeInScope',
 						};
 
 						var clearContent = function() {
+							$animate.leave(element);
 							element.html('');
 						};
 

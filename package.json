@@ -3,17 +3,16 @@
 	"version": "0.0.2",
 	"private": false,
 	"author": "capaj <capajj@gmail.com>",
-	"description": "adds last, first, remove, contains, isEmpty and empty to array utilizing Object.defineProperty",
+	"description": "collection of useful services/factories/directives/filters I like using in my angular projects",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/capaj/ng-tools.git"
 	},
 	"keywords": [
-		"array",
-		"array-methods",
-		"extend",
-		"sugar",
-		"syntactic sugar"
+		"debounce",
+		"angular",
+		"in scope",
+		"include"
 	],
 	"license": "MIT",
 	"devDependencies": {
