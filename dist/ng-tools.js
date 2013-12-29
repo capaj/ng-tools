@@ -1,3 +1,4 @@
+//ng-tools version 0.0.4 
 angular.module('ng-tools', []);
 angular.module('ng-tools').factory('debounce',['$timeout', function ($timeout) {
 	/**
@@ -33,7 +34,7 @@ angular.module('ng-tools').factory('debounce',['$timeout', function ($timeout) {
  *	attribute src: if you have a template in separate html file, which you want to load, assign the path to it to this attribute
  *	onload attribute is evaluated when content is included, if present
  */
-angular.module('ng-tools').directive('includeInScope',
+angular.module('ng-tools').directive('ntIncludeInScope',
 	['$http', '$templateCache', '$anchorScroll', '$compile', '$animate',
 		function($http,   $templateCache,   $anchorScroll,   $compile, $animate) {
 			return {
@@ -67,7 +68,7 @@ angular.module('ng-tools').directive('includeInScope',
 							includeCompile(html);
 						}else{
 							scope.$watch(function () {
-								return attr.src;
+                                return scope.$eval(attr.src);
 							}, function ngIncludeWatchAction(src) {
 								var thisChangeId = ++changeCounter;
 

@@ -38,9 +38,12 @@ module.exports = function (grunt) {
 //			}
 //		},
 		concat: {
-			app: {
+            options: {
+                banner: '//<%= pkg.name %> version <%= pkg.version %> \n'
+            },
+			dist: {
 				src: ['./src/module.js', './src/*.js'],
-				dest: './dist/<%= pkg.name %>-<%= pkg.version %>.js'
+				dest: './dist/<%= pkg.name %>.js'
 			}
 		},
 		jshint: {
@@ -73,7 +76,7 @@ module.exports = function (grunt) {
 		uglify: {
 			dist: {
 				files: {
-					'dist/<%= pkg.name %>-<%= pkg.version %>.min.js': 'dist/<%= pkg.name %>-<%= pkg.version %>.js'
+					'dist/<%= pkg.name %>.min.js': 'dist/<%= pkg.name %>.js'
 				}
 			}
 		}
