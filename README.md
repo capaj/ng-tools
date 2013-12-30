@@ -5,6 +5,7 @@ collection of useful services/factories/directives/filters I like using in any A
 
 - debounce factory
 - include-in-scope directive
+- set and stored set factories
 
 ## Editing
 Build process is done with grunt, so if you want to modify sources, just run:
