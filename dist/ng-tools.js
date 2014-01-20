@@ -1,6 +1,6 @@
-//ng-tools version 0.0.4 
-angular.module('ng-tools', []);
-angular.module('ng-tools').factory('debounce',['$timeout', function ($timeout) {
+//ng-tools version 0.0.5 
+angular.module('ngTools', []);
+angular.module('ngTools').factory('debounce',['$timeout', function ($timeout) {
 	/**
 	 * will cal fn once after timeout even if more than one call wdo debounced fn was made
 	 * @param {Function} fn to call debounced
@@ -34,7 +34,7 @@ angular.module('ng-tools').factory('debounce',['$timeout', function ($timeout) {
  *	attribute src: if you have a template in separate html file, which you want to load, assign the path to it to this attribute
  *	onload attribute is evaluated when content is included, if present
  */
-angular.module('ng-tools').directive('ntIncludeInScope',
+angular.module('ngTools').directive('ntIncludeInScope',
 	['$http', '$templateCache', '$anchorScroll', '$compile', '$animate',
 		function($http,   $templateCache,   $anchorScroll,   $compile, $animate) {
 			return {
@@ -89,7 +89,105 @@ angular.module('ng-tools').directive('ntIncludeInScope',
 		}
 	]
 );
-angular.module('ng-tools').factory('Set', function () {
+//----------------------------------------------------------------------------------------------------------------------
+// A directive for rendering markdown in AngularJS, shamelesly copied from https://bitbucket.org/morgul/angular-markdown
+//
+// Written by John Lindquist (original author). Modified by Jonathan Rowny (ngModel support).
+// Adapted by Christopher S. Case
+//
+// Taken from: http://blog.angularjs.org/2012/05/custom-components-part-1.html
+//
+// @module angular.markdown.js
+//----------------------------------------------------------------------------------------------------------------------
+
+angular.module("ngTools").directive('markdown', function()
+{
+    var converter = new Showdown.converter();
+
+    return {
+        restrict: 'E',
+        require: '?ngModel',
+        link:  function(scope, element, attrs, model)
+        {
+            // Check for extensions
+            var extAttr = attrs['extensions'];
+            var callPrettyPrint = false;
+            if(extAttr)
+            {
+                var extensions = [];
+
+                // Convert the comma separated string into a list.
+                extAttr.split(',').forEach(function(val)
+                {
+                    // Strip any whitespace from the beginning or end.
+                    extensions.push(val.replace(/^\s+|\s+$/g, ''));
+                });
+
+                if(extensions.indexOf('prettify') >= 0)
+                {
+                    callPrettyPrint = true;
+                } // end if
+
+                // Create a new converter.
+                converter = new Showdown.converter({extensions: extensions});
+            } // end if
+
+            // Check for option to strip whitespace
+            var stripWS = attrs['strip'];
+            stripWS = String(stripWS).toLowerCase() == 'true';
+
+            // Check for option to translate line breaks
+            var lineBreaks = attrs['lineBreaks'];
+            lineBreaks = String(lineBreaks).toLowerCase() == 'true'; 
+
+            var render = function()
+            {
+                var htmlText = "";
+                var val = "";
+
+                // Check to see if we're using a model.
+                if(attrs['ngModel'])
+                {
+                    if (model.$modelValue)
+                    {
+                        val = model.$modelValue;
+                    } // end if
+                }
+                else
+                {
+                    val = element.text();
+                } // end if
+
+                if(stripWS)
+                {
+                    val = val.replace(/^[ /t]+/g, '').replace(/\n[ /t]+/g, '\n');
+                } // end stripWS
+
+                if (lineBreaks) {
+                    val = val.replace(/&#10;/g, '\n');
+                } // end lineBreaks
+
+                // Compile the markdown, and set it.
+                htmlText = converter.makeHtml(val);
+                element.html(htmlText);
+
+                if(callPrettyPrint)
+                {
+                    prettyPrint();
+                } // end if
+            };
+
+            if(attrs['ngModel'])
+            {
+                scope.$watch(attrs['ngModel'], render);
+            } // end if
+
+            render();
+        } // end link
+    }
+}); // end markdown directive
+
+angular.module('ngTools').factory('Set', function () {
     /**
      * return new instance of a Set
      * @param {Function} [hashFunction] defaults to JSON.stringify
@@ -192,7 +290,7 @@ angular.module('ng-tools').factory('Set', function () {
  * set which is automatically stored in local storage, offers events to hook up syncing to the server, depends on
  * storage injectable. storage injectable must have "get(key)" and "set(key, value)" method
  */
-angular.module('ng-tools').factory('StoredSet',
+angular.module('ngTools').factory('StoredSet',
     /**
      *
      * @param Set
@@ -297,3 +395,35 @@ angular.module('ng-tools').factory('StoredSet',
     return StoredSet;
 });
 
+
+angular.module('ngTools').factory('urlize',['$location', '$route', '$log', function ($location, $route, $log) {
+    function urlize(scope, prop){
+        if($route.current.$$route.reloadOnSearch !== false){
+            $log.error('Current route reloads on search, reloadOnSearch should be set to false');
+        }
+
+        function updateFromLocation() {
+            var inLoc = $location.search()[prop];
+            if (inLoc) {
+                if (angular.isObject(inLoc)) {
+                    inLoc = JSON.parse(inLoc);
+                }
+                scope[prop] = inLoc;
+            }
+        }
+
+        updateFromLocation();
+        
+        scope.$watch(prop, function (nV, oV) {
+            if (nV) {
+                if (angular.isObject(nV)) {
+                    nV = JSON.stringify(nV);
+                }
+                $location.search(prop, nV);
+            }
+        });
+
+        scope.$on('$routeUpdate', updateFromLocation);
+    }
+    return urlize;
+}]);

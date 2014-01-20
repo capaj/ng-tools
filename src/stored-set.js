@@ -2,7 +2,7 @@
  * set which is automatically stored in local storage, offers events to hook up syncing to the server, depends on
  * storage injectable. storage injectable must have "get(key)" and "set(key, value)" method
  */
-angular.module('ng-tools').factory('StoredSet',
+angular.module('ngTools').factory('StoredSet',
     /**
      *
      * @param Set

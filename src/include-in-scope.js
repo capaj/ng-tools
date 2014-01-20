@@ -4,7 +4,7 @@
  *	attribute src: if you have a template in separate html file, which you want to load, assign the path to it to this attribute
  *	onload attribute is evaluated when content is included, if present
  */
-angular.module('ng-tools').directive('ntIncludeInScope',
+angular.module('ngTools').directive('ntIncludeInScope',
 	['$http', '$templateCache', '$anchorScroll', '$compile', '$animate',
 		function($http,   $templateCache,   $anchorScroll,   $compile, $animate) {
 			return {

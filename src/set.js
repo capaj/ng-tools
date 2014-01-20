@@ -1,4 +1,4 @@
-angular.module('ng-tools').factory('Set', function () {
+angular.module('ngTools').factory('Set', function () {
     /**
      * return new instance of a Set
      * @param {Function} [hashFunction] defaults to JSON.stringify

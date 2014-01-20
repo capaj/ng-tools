@@ -1,1 +1,1 @@
-angular.module('ng-tools', []);
+angular.module('ngTools', []);

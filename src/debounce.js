@@ -1,4 +1,4 @@
-angular.module('ng-tools').factory('debounce',['$timeout', function ($timeout) {
+angular.module('ngTools').factory('debounce',['$timeout', function ($timeout) {
 	/**
 	 * will cal fn once after timeout even if more than one call wdo debounced fn was made
 	 * @param {Function} fn to call debounced
