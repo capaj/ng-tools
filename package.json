@@ -1,6 +1,6 @@
 {
 	"name": "ng-tools",
-	"version": "0.0.4",
+	"version": "0.1.0",
 	"private": false,
 	"author": "capaj <capajj@gmail.com>",
 	"description": "collection of useful services/factories/directives/filters I like using in my angular projects",

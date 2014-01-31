@@ -1,4 +1,4 @@
-//ng-tools version 0.0.5 
+//ng-tools version 0.1.0 
 angular.module('ngTools', []);
 angular.module('ngTools').factory('debounce',['$timeout', function ($timeout) {
 	/**
@@ -89,6 +89,27 @@ angular.module('ngTools').directive('ntIncludeInScope',
 		}
 	]
 );
+/**
+ * just very simple directive for managing loader element
+ */
+angular.module('ngTools').service('loaderSvc',['$q', function ($q) {
+    this.deferred = $q.defer(); //when loading is finished, jsut resolve the deferred to fadeOut the element
+}]).directive('loader',
+    ['loaderSvc',function(loaderSvc) {
+        return {
+            restrict: 'A',
+            link: function (scope, el, attrs) {
+                loaderSvc.deferred.promise.then(function () {
+                    if (angular.isFunction(loaderSvc.hideMethod)) {
+                        loaderSvc.hideMethod(el);
+                    } else {
+                        el.fadeOut();
+                    }
+                })
+            }
+        };
+    }]
+);
 //----------------------------------------------------------------------------------------------------------------------
 // A directive for rendering markdown in AngularJS, shamelesly copied from https://bitbucket.org/morgul/angular-markdown
 //
@@ -138,7 +159,7 @@ angular.module("ngTools").directive('markdown', function()
 
             // Check for option to translate line breaks
             var lineBreaks = attrs['lineBreaks'];
-            lineBreaks = String(lineBreaks).toLowerCase() == 'true'; 
+            lineBreaks = String(lineBreaks).toLowerCase() == 'true';
 
             var render = function()
             {
