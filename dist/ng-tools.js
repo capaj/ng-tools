@@ -1,4 +1,4 @@
-//ng-tools version 0.1.0 
+//ng-tools version 0.1.2 
 angular.module('ngTools', []);
 angular.module('ngTools').factory('debounce',['$timeout', function ($timeout) {
 	/**
@@ -110,8 +110,10 @@ angular.module('ngTools').service('loaderSvc',['$q', function ($q) {
         };
     }]
 );
-angular.module('ngTools').directive('markCurrentLinks', function ($route) {
+// use on any element that has some A tags as children
+angular.module('ngTools').directive('markCurrentLinks', function () {
     return {
+        priority: 50,
         link: function (scope, el, attrs) {
             scope.$on('$locationChangeSuccess', function (ev, newUrl) {
                 var links = el.find('a');
@@ -125,6 +127,25 @@ angular.module('ngTools').directive('markCurrentLinks', function ($route) {
                         link.removeClass('current');
                     }
                 }
+            });
+        }
+    }
+}).directive('markCurrentIfAnyChildIs', function () {
+    return {
+        link: function (scope, el, attrs) {
+            scope.$on('$locationChangeSuccess', function (ev, newUrl) {
+                var links = el.find('a');
+                var i = links.length;
+                while(i--) {
+                    var link = angular.element(links[i]);
+                    if (link.hasClass('current')) {
+                        el.addClass('current');
+                        return;
+                    }
+                }
+
+                // executed only if no link has 'current' class
+                el.removeClass('current');
             });
         }
     }

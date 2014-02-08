@@ -7,7 +7,7 @@ collection of useful services/factories/directives/filters I like using in any A
 - include-in-scope directive
 - set and stored set factories
 - markdown directive
-- mark-current-url directive
+- mark-current-url directive(and asociated mark-current-if-any-child-is directive)
 - loader directive with loaderSvc for easy hiding spinners and other loader elements
 
 ## Editing
