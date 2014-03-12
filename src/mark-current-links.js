@@ -18,7 +18,7 @@ angular.module('ngTools').directive('markCurrentLinks', function () {
             });
         }
     }
-}).directive('markCurrentIfAnyChildIs', function ($timeout) {
+}).directive('markCurrentIfAnyChildIs', ['$timeout', function ($timeout) {
     return {
         link: function (scope, el, attrs) {
             scope.$on('$locationChangeSuccess', function (ev, newUrl) {
@@ -38,4 +38,4 @@ angular.module('ngTools').directive('markCurrentLinks', function () {
             });
         }
     }
-});
+}]);

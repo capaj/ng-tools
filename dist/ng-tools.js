@@ -1,6 +1,6 @@
-//ng-tools version 0.1.2 
+//ng-tools version 0.1.4 
 angular.module('ngTools', []);
-angular.module('ngTools').factory('debounce',['$timeout', function ($timeout) {
+angular.module('ngTools').factory('debounce', ['$timeout', function ($timeout) {
 	/**
 	 * will cal fn once after timeout even if more than one call wdo debounced fn was made
 	 * @param {Function} fn to call debounced
@@ -130,7 +130,7 @@ angular.module('ngTools').directive('markCurrentLinks', function () {
             });
         }
     }
-}).directive('markCurrentIfAnyChildIs', function ($timeout) {
+}).directive('markCurrentIfAnyChildIs', ['$timeout', function ($timeout) {
     return {
         link: function (scope, el, attrs) {
             scope.$on('$locationChangeSuccess', function (ev, newUrl) {
@@ -150,7 +150,7 @@ angular.module('ngTools').directive('markCurrentLinks', function () {
             });
         }
     }
-});
+}]);
 //----------------------------------------------------------------------------------------------------------------------
 // A directive for rendering markdown in AngularJS, shamelesly copied from https://bitbucket.org/morgul/angular-markdown
 //
