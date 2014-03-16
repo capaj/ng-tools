@@ -1,4 +1,5 @@
 module.exports = function (grunt) {
+	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 
@@ -37,6 +38,16 @@ module.exports = function (grunt) {
 //				tasks: ['clean']
 //			}
 //		},
+        connect: {
+            test: {
+                options: {
+                    port: 9001,
+                    livereload: 9002,
+//                    base: 'test',
+                    keepalive: true
+                }
+            }
+        },
 		concat: {
             options: {
                 banner: '//<%= pkg.name %> version <%= pkg.version %> \n'
