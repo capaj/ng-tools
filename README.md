@@ -3,6 +3,7 @@ ng-tools
 
 collection of useful services/factories/directives/filters I like using in any Angular project, so far contains:
 
+- urlize factory for easy synchronization between scope object and url search params
 - debounce factory
 - include-in-scope directive
 - set and stored set factories
