@@ -1,4 +1,4 @@
-//ng-tools version 0.1.4 
+//ng-tools version 0.2.1 
 angular.module('ngTools', []);
 angular.module('ngTools').factory('debounce', ['$timeout', function ($timeout) {
 	/**
@@ -284,17 +284,13 @@ angular.module('ngTools').factory('Set', function () {
             this.add(value);
             return r;
         },
-        /**
-         * @param {*} obj
-         * @returns {*} stored value or null if the hash did not found anything
-         */
-        getValue: function getValue(obj) {
-            var hash = this.hashFn(obj);
-            if (this.values.hasOwnProperty(hash)) {
-                return this.values[hash];
-            }
-            return null;
-        },
+		/**
+		 * @param {String} hash
+		 * @returns {*} stored value or undefined if the hash did not found anything
+		 */
+		getValue: function getValue(hash) {
+			return this.values[hash];
+		},
         /**
          * @param value
          * @returns {boolean} whether it removed the item

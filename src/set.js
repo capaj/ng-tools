@@ -33,17 +33,13 @@ angular.module('ngTools').factory('Set', function () {
             this.add(value);
             return r;
         },
-        /**
-         * @param {*} obj
-         * @returns {*} stored value or null if the hash did not found anything
-         */
-        getValue: function getValue(obj) {
-            var hash = this.hashFn(obj);
-            if (this.values.hasOwnProperty(hash)) {
-                return this.values[hash];
-            }
-            return null;
-        },
+		/**
+		 * @param {String} hash
+		 * @returns {*} stored value or undefined if the hash did not found anything
+		 */
+		getValue: function getValue(hash) {
+			return this.values[hash];
+		},
         /**
          * @param value
          * @returns {boolean} whether it removed the item
