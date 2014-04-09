@@ -1,4 +1,4 @@
-//ng-tools version 0.2.1 
+//ng-tools version 0.2.3 
 angular.module('ngTools', []);
 angular.module('ngTools').factory('debounce', ['$timeout', function ($timeout) {
 	/**
@@ -454,6 +454,11 @@ angular.module('ngTools').factory('StoredSet',
 });
 
 
+angular.module('ngTools').filter('trustAsHtml', ['$sce', function($sce){
+	return function(text) {
+		return $sce.trustAsHtml(text);
+	};
+}]);
 angular.module('ngTools').factory('urlize', ['$location', '$route', '$log', '$timeout',
     function ($location, $route, $log, $timeout) {
 
