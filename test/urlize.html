@@ -29,7 +29,7 @@
                 console.log('$locationChangeSuccess');
             });
         }).controller('routeCtrl', function ($scope, $location, urlize) {
-            urlize($scope, 'search');
+            urlize($scope, 'search');   // search object from scope will be synchronized on any change to URL
 
 
             $scope.sa = function(){
