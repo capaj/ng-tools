@@ -12,7 +12,7 @@ collection of useful services/factories/directives/filters I like using in any A
 - loader directive with loaderSvc for easy hiding spinners and other loader elements
 - trustAsHtml filter
 
-## Editing
+## Customization and building [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 Build process is done with grunt, so if you want to modify sources, just run:
 ```
 npm install
