@@ -250,16 +250,22 @@ angular.module("ngTools").directive('markdown', function()
 }); // end markdown directive
 
 angular.module('ngTools').factory('Set', function () {
-    /**
-     * return new instance of a Set
-     * @param {Function} [hashFunction] defaults to JSON.stringify
-     * @constructor
-     */
-    function Set(hashFunction) {
-        this.hashFn = hashFunction || JSON.stringify;
-        this.values = {};
-        this.size = 0;
-    }
+	/**
+	 * return new instance of a Set
+	 * @param {Function|String} [hashFunction] defaults to JSON.stringify
+	 * @constructor
+	 */
+	function Set(hashFunction) {
+		if (typeof hashFunction === 'string') {
+			this.hashFn = function (item) {
+				return item[hashFunction];
+			}
+		} else {
+			this.hashFn = hashFunction || JSON.stringify;
+		}
+		this.values = {};
+		this.size = 0;
+	}
 
     Set.prototype = {
         /**
