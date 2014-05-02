@@ -1,4 +1,4 @@
-//ng-tools version 0.2.3 
+//ng-tools version 0.2.4 
 angular.module('ngTools', []);
 angular.module('ngTools').factory('debounce', ['$timeout', function ($timeout) {
 	/**
@@ -460,6 +460,7 @@ angular.module('ngTools').factory('StoredSet',
 });
 
 
+// thx to Leeroy Brun http://stackoverflow.com/a/21254635
 angular.module('ngTools').filter('trustAsHtml', ['$sce', function($sce){
 	return function(text) {
 		return $sce.trustAsHtml(text);
