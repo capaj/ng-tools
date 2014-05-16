@@ -22,3 +22,7 @@ then when you want to get concatenated, minified sources, use command:
 ```
 grunt
 ```
+for tests, run
+```
+grunt karma
+```

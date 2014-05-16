@@ -1,4 +1,4 @@
-//ng-tools version 0.2.4 
+//ng-tools version 0.3.0 
 angular.module('ngTools', []);
 angular.module('ngTools').factory('debounce', ['$timeout', function ($timeout) {
 	/**
@@ -297,26 +297,35 @@ angular.module('ngTools').factory('Set', function () {
 		getValue: function getValue(hash) {
 			return this.values[hash];
 		},
-        /**
-         * @param value
-         * @returns {boolean} whether it removed the item
-         */
-        remove: function remove(value) {
-            var r = this.contains(value);
-            if (r) {
-                // does copntain
-                delete this.values[this.hashFn(value)];
-                this.size--;
-            }
-            return r;
-        },
-        /**
-         * @param value
-         * @returns {boolean}
-         */
-        contains: function contains(value) {
-            return typeof this.values[this.hashFn(value)] !== "undefined";
-        },
+		/**
+		 * @param {*} valueOrKey either hash or an object
+		 * @returns {boolean} whether it removed the item
+		 */
+		remove: function remove(valueOrKey) {
+			if (this.contains(valueOrKey)) {
+				// does contain
+				if (angular.isObject(valueOrKey)) {
+					delete this.values[this.hashFn(valueOrKey)];
+				} else {
+					delete this.values[valueOrKey];
+				}
+				this.size--;
+				return true;
+			} else {
+				return false;
+			}
+		},
+		/**
+		 * @param {*} valueOrKey either hash or an object
+		 * @returns {boolean}
+		 */
+		contains: function contains(valueOrKey) {
+			if (angular.isObject(valueOrKey)) {
+				return this.values[this.hashFn(valueOrKey)] !== undefined;
+			} else {
+				return this.values[valueOrKey] !== undefined;
+			}
+		},
         /**
          *
          * @returns {number}
