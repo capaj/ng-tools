@@ -8,8 +8,8 @@ describe('Set', function () {
 		});
 	});
 
-	it('hashFn should not be equal to JSON.stringify', function () {
-//		expect(aset.hashFn).not.toBe(JSON.stringify);
+	it('hashFn should be created on the fly for string param', function () {
+		expect(aset.hashFn).not.toBe(JSON.stringify);
 		expect(aset.hashFn({id:1})).toBe(1);
 	});
 
