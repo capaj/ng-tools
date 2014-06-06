@@ -47,8 +47,8 @@ module.exports = function (grunt) {
         connect: {
             test: {
                 options: {
-                    port: 9001,
-                    livereload: 9002,
+                    port: 9010,
+                    livereload: 9012,
 //                    base: 'test',
                     keepalive: true
                 }

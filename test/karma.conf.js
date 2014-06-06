@@ -11,15 +11,13 @@ module.exports = function(config) {
 		reporters: ['progress'],
 		// list of files / patterns to load in the browser
 		files: [
+			'./../test/matchers.js',
 			'./../bower_components/angular/angular.js',
 			'./../bower_components/angular-mocks/angular-mocks.js',
 			'./../src/module.js',
 			'./../src/**/*.js',
 			'./../test/spec/**/*.js'
 		],
-
-		// list of files / patterns to exclude
-		exclude: ['app/scripts/factories/zen_native.js'],
 
 		// web server port
 		port: 8090,
