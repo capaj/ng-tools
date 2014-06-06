@@ -4,17 +4,15 @@ angular.module('ngTools').value('promiseClassStates',
 	return {
 		restrict: 'A',
 		link: function (scope, el, attrs) {
-			var states = promiseClassStates;
-
 			var inProgress = function (prom) {
-				el.removeClass(states[0]);
-				el.addClass(states[1]);
+				el.removeClass(promiseClassStates[0]);
+				el.addClass(promiseClassStates[1]);
 				prom.then(function () {
-					el.removeClass(states[1]);
-					el.addClass(states[2]);
+					el.removeClass(promiseClassStates[1]);
+					el.addClass(promiseClassStates[2]);
 				}, function () {
-					el.removeClass(states[1]);
-					el.addClass(states[3]);
+					el.removeClass(promiseClassStates[1]);
+					el.addClass(promiseClassStates[3]);
 				});
 			};
 
@@ -24,7 +22,7 @@ angular.module('ngTools').value('promiseClassStates',
 				if(nV && nV.then) {
 					inProgress(nV);
 				} else {
-					el.addClass(states[0]);
+					el.addClass(promiseClassStates[0]);
 				}
 			});
 
