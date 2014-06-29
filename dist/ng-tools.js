@@ -1,4 +1,4 @@
-//ng-tools version 0.3.0 
+//ng-tools version 0.3.1 
 angular.module('ngTools', []);
 angular.module('ngTools').factory('debounce', ['$timeout', function ($timeout) {
 	/**
@@ -28,6 +28,20 @@ angular.module('ngTools').factory('debounce', ['$timeout', function ($timeout) {
 	}
 	return debounce;
 }]);
+// thx to Leeroy Brun http://stackoverflow.com/a/21254635
+angular.module('ngTools').filter('trustAsHtml', ['$sce', function($sce){
+	return function(text) {
+		return $sce.trustAsHtml(text);
+	};
+}]).filter('localizeNumber', function() {
+	return function (number, lng, opts) {
+		if (angular.isFunction(number.toLocaleString)) {
+			return number.toLocaleString(lng, opts);
+		} else {
+			return number;
+		}
+	}
+});
 /**
  *	directive include-in-scope
  *	attribute include-in-scope: if you have a scope variable containing html, assign it to this attribute
@@ -93,7 +107,7 @@ angular.module('ngTools').directive('ntIncludeInScope',
  * just very simple directive for managing loader element
  */
 angular.module('ngTools').service('loaderSvc',['$q', function ($q) {
-    this.deferred = $q.defer(); //when loading is finished, jsut resolve the deferred to fadeOut the element
+    this.deferred = $q.defer(); //when loading is finished, just resolve the deferred to fadeOut the element
 }]).directive('loader',
     ['loaderSvc',function(loaderSvc) {
         return {
@@ -249,6 +263,37 @@ angular.module("ngTools").directive('markdown', function()
     }
 }); // end markdown directive
 
+angular.module('ngTools').value('promiseClassStates',
+	['not-initialized', 'in-progress', 'resolved', 'rejected'])
+.directive('promiseClass', function (promiseClassStates) {
+	return {
+		restrict: 'A',
+		link: function (scope, el, attrs) {
+			var inProgress = function (prom) {
+				el.removeClass(promiseClassStates[0]);
+				el.addClass(promiseClassStates[1]);
+				prom.then(function () {
+					el.removeClass(promiseClassStates[1]);
+					el.addClass(promiseClassStates[2]);
+				}, function () {
+					el.removeClass(promiseClassStates[1]);
+					el.addClass(promiseClassStates[3]);
+				});
+			};
+
+			scope.$watch(function () {
+				return scope.$eval(attrs.promiseClass);
+			}, function (nV) {
+				if(nV && nV.then) {
+					inProgress(nV);
+				} else {
+					el.addClass(promiseClassStates[0]);
+				}
+			});
+
+		}
+	};
+});
 angular.module('ngTools').factory('Set', function () {
 	/**
 	 * return new instance of a Set
@@ -469,12 +514,55 @@ angular.module('ngTools').factory('StoredSet',
 });
 
 
-// thx to Leeroy Brun http://stackoverflow.com/a/21254635
-angular.module('ngTools').filter('trustAsHtml', ['$sce', function($sce){
-	return function(text) {
-		return $sce.trustAsHtml(text);
+directives.directive('longTextClass', function() {
+	return {
+		restrict: 'A',
+		link: function (scope, el, attrs) {
+			scope.$watch(function () {
+				return el.text().trim();
+			}, function (nV) {
+				if (nV.length > attrs.longTextClass) {
+					el.addClass('long_text');
+				} else {
+					el.removeClass('long_text');
+				}
+			});
+		}
 	};
-}]);
+}).directive('textOverflowClass', function () {
+	function checkOverflow(el, attrs){
+		var curOverflow = el.style.overflow;
+		if ( !curOverflow || curOverflow === "visible" ){
+			el.style.overflow = "hidden";
+		}
+		var isOverflowing;
+		if (!attrs.textOverflowClass) { //use text-overflow-class="true" when you want to check width and height for overflow
+			isOverflowing = el.clientWidth < el.scrollWidth;
+		} else {
+			isOverflowing = el.clientWidth < el.scrollWidth || el.clientHeight < el.scrollHeight;
+		}
+
+		el.style.overflow = curOverflow;
+
+		return isOverflowing;
+	}
+	return {
+		restrict: 'A',
+		link: function (scope, el, attrs) {
+			scope.$watch(function () {
+				return el.text();
+			}, function () {
+
+				if (checkOverflow(el[0], attrs)) {
+					el.addClass('text_overflow');
+				} else {
+					el.removeClass('text_overflow');
+				}
+
+			});
+		}
+	};
+});
 angular.module('ngTools').factory('urlize', ['$location', '$route', '$log', '$timeout',
     function ($location, $route, $log, $timeout) {
 
@@ -505,7 +593,6 @@ angular.module('ngTools').factory('urlize', ['$location', '$route', '$log', '$ti
                     if (setScopeProp) {
                         var inLoc = $location.search()[prop];
                         if (inLoc) {
-                            debugger;
                             if (!angular.isObject(inLoc)) {
                                 inLoc = JSON.parse(inLoc);
                             }
@@ -516,7 +603,6 @@ angular.module('ngTools').factory('urlize', ['$location', '$route', '$log', '$ti
                 };
             } else {
                 updateFromLocation = function () {
-                    debugger;
                     if (setScopeProp) {
                         var search = $location.search();
                         angular.extend(scope[prop], search);

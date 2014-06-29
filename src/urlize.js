@@ -28,7 +28,6 @@ angular.module('ngTools').factory('urlize', ['$location', '$route', '$log', '$ti
                     if (setScopeProp) {
                         var inLoc = $location.search()[prop];
                         if (inLoc) {
-                            debugger;
                             if (!angular.isObject(inLoc)) {
                                 inLoc = JSON.parse(inLoc);
                             }
@@ -39,7 +38,6 @@ angular.module('ngTools').factory('urlize', ['$location', '$route', '$log', '$ti
                 };
             } else {
                 updateFromLocation = function () {
-                    debugger;
                     if (setScopeProp) {
                         var search = $location.search();
                         angular.extend(scope[prop], search);
