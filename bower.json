@@ -1,12 +1,12 @@
 {
 	"name": "ng-tools",
-	"version": "0.3.1",
+	"version": "0.3.2",
     "dependencies": {
         "showdown": "~0.3",
-		"angular": "1.2.16"
+		"angular": "~1"
 	},
 	"devDependencies": {
-		"angular-mocks": "1.2.16"
+		"angular-mocks": "~1"
 	},
 	"ignore": [
 		"**/.*",
