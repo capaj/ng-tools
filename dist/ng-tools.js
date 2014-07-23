@@ -1,4 +1,4 @@
-//ng-tools version 0.3.1 
+//ng-tools version 0.3.3 
 angular.module('ngTools', []);
 angular.module('ngTools').factory('debounce', ['$timeout', function ($timeout) {
 	/**
@@ -514,7 +514,7 @@ angular.module('ngTools').factory('StoredSet',
 });
 
 
-directives.directive('longTextClass', function() {
+angular.module('ngTools').directive('longTextClass', function() {
 	return {
 		restrict: 'A',
 		link: function (scope, el, attrs) {
