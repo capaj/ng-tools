@@ -36,4 +36,20 @@ describe('Set', function () {
 		expect(aset.size).toBe(0);
 	});
 
+	it("set should be able to create set from an array", function() {
+		var a = {id: 1};
+		aset.fromArray([a, {id: 2}, {id: 3}, {id: 3}, a]);
+		expect(aset.size).toBe(3);
+	});
+
+	it("set should be able to filter values", function() {
+		var a = {id:1};
+		aset.fromArray([a, {id: 2}, {id: 3}]);
+		var filtered = aset.filter(function(item) {
+			return item.id < 3;
+		});
+		expect(filtered.length).toBe(2);
+
+	});
+
 });

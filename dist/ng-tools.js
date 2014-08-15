@@ -1,4 +1,4 @@
-//ng-tools version 0.3.1 
+//ng-tools version 0.3.3 
 angular.module('ngTools', []);
 angular.module('ngTools').factory('debounce', ['$timeout', function ($timeout) {
 	/**
@@ -303,7 +303,11 @@ angular.module('ngTools').factory('Set', function () {
 	function Set(hashFunction) {
 		if (typeof hashFunction === 'string') {
 			this.hashFn = function (item) {
-				return item[hashFunction];
+				if (item[hashFunction] !== undefined) {
+					return item[hashFunction];
+				} else {
+					throw new Error('Undefined was returned by hash function on object ' + JSON.stringify(item) );
+				}
 			}
 		} else {
 			this.hashFn = hashFunction || JSON.stringify;
@@ -326,6 +330,18 @@ angular.module('ngTools').factory('Set', function () {
             }
             return r;
         },
+		/**
+		 *
+		 * @param {Array} arr
+		 * @returns {Number} count of items in the set after all items in the array have been added
+		 */
+		fromArray: function(arr) {
+			var item;
+			while(item = arr.pop()) {
+				this.add(item);
+			}
+			return this.size;
+		},
         /**
          * @param value
          * @returns {boolean} true when item was replaced, false when just added
@@ -399,7 +415,14 @@ angular.module('ngTools').factory('Set', function () {
                 r.push(this.values[i]);
             }
             return r;
-        }
+        },
+		/**
+		 * @returns {Array} of filtered items
+		 */
+		filter: function() {
+			var arr =  this.toArray();
+			return arr.filter.apply(arr, arguments);
+		}
     };
     return Set;
 });
@@ -514,7 +537,7 @@ angular.module('ngTools').factory('StoredSet',
 });
 
 
-directives.directive('longTextClass', function() {
+angular.module('ngTools').directive('longTextClass', function() {
 	return {
 		restrict: 'A',
 		link: function (scope, el, attrs) {

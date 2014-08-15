@@ -1,4 +1,4 @@
-directives.directive('longTextClass', function() {
+angular.module('ngTools').directive('longTextClass', function() {
 	return {
 		restrict: 'A',
 		link: function (scope, el, attrs) {
