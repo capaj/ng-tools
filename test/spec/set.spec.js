@@ -20,11 +20,11 @@ describe('Set', function () {
 		expect(aset.size).toBe(1);
 	});
 
-	it("set should have contains method which works for any parameter", function() {
+	it("set should have has method which works for any parameter", function() {
 		aset.add({id:1});
-		expect(aset.contains({id:1})).toBe(true);
-		expect(aset.contains('1')).toBe(true);
-		expect(aset.contains(1)).toBe(true);
+		expect(aset.has({id:1})).toBe(true);
+		expect(aset.has('1')).toBe(true);
+		expect(aset.has(1)).toBe(true);
 	});
 
 	it("set should be able to remove a value provided a string", function() {
@@ -36,10 +36,12 @@ describe('Set', function () {
 		expect(aset.size).toBe(0);
 	});
 
-	it("set should be able to create set from an array", function() {
+	it("set should be able to create set from an array and clear itself", function() {
 		var a = {id: 1};
 		aset.fromArray([a, {id: 2}, {id: 3}, {id: 3}, a]);
 		expect(aset.size).toBe(3);
+		aset.clear();
+		expect(aset.size).toBe(0);
 	});
 
 	it("set should be able to filter values", function() {

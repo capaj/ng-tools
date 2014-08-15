@@ -1,6 +1,6 @@
 {
 	"name": "ng-tools",
-	"version": "0.3.3",
+	"version": "0.4.0",
     "dependencies": {
         "showdown": "~0.3",
 		"angular": "~1"

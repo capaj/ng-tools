@@ -1,4 +1,4 @@
-//ng-tools version 0.3.3 
+//ng-tools version 0.4.0 
 angular.module('ngTools', []);
 angular.module('ngTools').factory('debounce', ['$timeout', function ($timeout) {
 	/**
@@ -312,8 +312,7 @@ angular.module('ngTools').factory('Set', function () {
 		} else {
 			this.hashFn = hashFunction || JSON.stringify;
 		}
-		this.values = {};
-		this.size = 0;
+		this.clear();
 	}
 
     Set.prototype = {
@@ -322,7 +321,7 @@ angular.module('ngTools').factory('Set', function () {
          * @returns {boolean} true when item was added
          */
         add: function add(value) {
-            var r = !this.contains(value);
+            var r = !this.has(value);
             if (r) {
                 //does not contain
                 this.values[this.hashFn(value)] = value;
@@ -341,6 +340,13 @@ angular.module('ngTools').factory('Set', function () {
 				this.add(item);
 			}
 			return this.size;
+		},
+		/**
+		 * set will be left empty
+		 */
+		clear: function() {
+			this.values = {};
+			this.size = 0;
 		},
         /**
          * @param value
@@ -363,7 +369,7 @@ angular.module('ngTools').factory('Set', function () {
 		 * @returns {boolean} whether it removed the item
 		 */
 		remove: function remove(valueOrKey) {
-			if (this.contains(valueOrKey)) {
+			if (this.has(valueOrKey)) {
 				// does contain
 				if (angular.isObject(valueOrKey)) {
 					delete this.values[this.hashFn(valueOrKey)];
@@ -380,7 +386,7 @@ angular.module('ngTools').factory('Set', function () {
 		 * @param {*} valueOrKey either hash or an object
 		 * @returns {boolean}
 		 */
-		contains: function contains(valueOrKey) {
+		has: function has(valueOrKey) {
 			if (angular.isObject(valueOrKey)) {
 				return this.values[this.hashFn(valueOrKey)] !== undefined;
 			} else {
