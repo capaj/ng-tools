@@ -335,9 +335,9 @@ angular.module('ngTools').factory('Set', function () {
 		 * @returns {Number} count of items in the set after all items in the array have been added
 		 */
 		fromArray: function(arr) {
-			var item;
-			while(item = arr.pop()) {
-				this.add(item);
+			var i = arr.length;
+			while(i--) {
+				this.add(arr[i]);
 			}
 			return this.size;
 		},
@@ -437,7 +437,7 @@ angular.module('ngTools').factory('Set', function () {
  * set which is automatically stored in local storage, offers events to hook up syncing to the server, depends on
  * storage injectable. storage injectable must have "get(key)" and "set(key, value)" method
  */
-angular.module('ngTools').factory('StoredSet',
+angular.module('ngTools').factory('StoredSet',[ 'Set', 'storage', '$log',
     /**
      *
      * @param Set
@@ -540,7 +540,7 @@ angular.module('ngTools').factory('StoredSet',
         }
     };
     return StoredSet;
-});
+}]);
 
 
 angular.module('ngTools').directive('longTextClass', function() {

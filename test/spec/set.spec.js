@@ -38,8 +38,10 @@ describe('Set', function () {
 
 	it("set should be able to create set from an array and clear itself", function() {
 		var a = {id: 1};
-		aset.fromArray([a, {id: 2}, {id: 3}, {id: 3}, a]);
+		var arr = [a, {id: 2}, {id: 3}, {id: 3}, a];
+		aset.fromArray(arr);
 		expect(aset.size).toBe(3);
+		expect(arr.length).toBe(5);
 		aset.clear();
 		expect(aset.size).toBe(0);
 	});

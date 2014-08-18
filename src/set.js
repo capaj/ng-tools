@@ -39,9 +39,9 @@ angular.module('ngTools').factory('Set', function () {
 		 * @returns {Number} count of items in the set after all items in the array have been added
 		 */
 		fromArray: function(arr) {
-			var item;
-			while(item = arr.pop()) {
-				this.add(item);
+			var i = arr.length;
+			while(i--) {
+				this.add(arr[i]);
 			}
 			return this.size;
 		},
