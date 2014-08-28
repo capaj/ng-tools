@@ -56,4 +56,15 @@ describe('Set', function () {
 
 	});
 
+	it("set should be able to iterate itself with 'each' method", function() {
+		var ar = [];
+		aset.add({id:1});
+		aset.add({id:2});
+		aset.each(function(item) {
+			ar.push(item);
+		});
+		expect(ar[0].id).toBe(1);
+		expect(ar[1].id).toBe(2);
+	});
+
 });

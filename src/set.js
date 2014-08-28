@@ -110,10 +110,12 @@ angular.module('ngTools').factory('Set', function () {
          * @param {*} [thisObj] this context for iterator
          */
         each: function each(iteratorFunction, thisObj) {
-            for (var value in this.values) {
-                var contx = thisObj || this.values[value];
-                iteratorFunction.call(contx, this.values[value]);
-            }
+			var keys = Object.keys(this.values).reverse();
+			var item;
+			while(item = keys.pop()) {
+				var contx = thisObj || this.values[item];
+				iteratorFunction.call(contx, this.values[item]);
+			}
         },
         /**
          *
