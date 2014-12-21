@@ -1,4 +1,4 @@
-//ng-tools version 0.4.0 
+//ng-tools version 0.5.0 
 angular.module('ngTools', []);
 angular.module('ngTools').factory('debounce', ['$timeout', function ($timeout) {
 	/**
@@ -29,11 +29,15 @@ angular.module('ngTools').factory('debounce', ['$timeout', function ($timeout) {
 	return debounce;
 }]);
 // thx to Leeroy Brun http://stackoverflow.com/a/21254635
-angular.module('ngTools').filter('trustAsHtml', ['$sce', function($sce){
+angular.module('ngTools').filter('trustHtml', ['$sce', function($sce){
 	return function(text) {
 		return $sce.trustAsHtml(text);
 	};
-}]).filter('localizeNumber', function() {
+}]).filter('trustUrl', function ($sce) {
+	return function(url) {
+		return $sce.trustAsResourceUrl(url);
+	};
+}).filter('localizeNumber', function() {
 	return function (number, lng, opts) {
 		if (angular.isFunction(number.toLocaleString)) {
 			return number.toLocaleString(lng, opts);
@@ -406,10 +410,12 @@ angular.module('ngTools').factory('Set', function () {
          * @param {*} [thisObj] this context for iterator
          */
         each: function each(iteratorFunction, thisObj) {
-            for (var value in this.values) {
-                var contx = thisObj || this.values[value];
-                iteratorFunction.call(contx, this.values[value]);
-            }
+			var keys = Object.keys(this.values).reverse();
+			var item;
+			while(item = keys.pop()) {
+				var contx = thisObj || this.values[item];
+				iteratorFunction.call(contx, this.values[item]);
+			}
         },
         /**
          *
