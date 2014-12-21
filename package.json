@@ -18,6 +18,7 @@
 		"include",
 		"urlize"
 	],
+	"main": "./dist/ng-tools.js",
 	"license": "MIT",
 	"devDependencies": {
 		"grunt": "~0.4",
