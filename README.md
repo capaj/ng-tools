@@ -16,7 +16,8 @@ collection of useful services/factories/directives/filters I like using in any A
 - set and stored set factories
 
 ##Filters
-- trustAsHtml filter
+- trustHtml filter
+- trustUrl filter
 - localizeNumber filter which uses number.toLocaleString to render a number in local i18n format
 
 ## Customization and building [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
