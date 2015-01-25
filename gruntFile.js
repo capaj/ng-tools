@@ -2,42 +2,12 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-ng-annotate');
 	grunt.loadNpmTasks('grunt-karma');
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('bower.json'),
 //		watch: {
-//			options: {
-//				livereload: true
-//			},
-//			files: ['src/**/*.html'],
-//			autocompile: {
-//				files: ['src/**/*.js', '!src/bower_components'],
-//				tasks: autocompileTasks
-//			},
-//			less: {
-//				files: 'src/**/*.less',
-//				tasks: ['less:development']
-//			},
-//			replace: {
-//				files: 'src/resource/index.html',
-//				tasks: ['replace:indexMain']
-//			},
-//			manifest: {
-//				files: 'src/loadOrder.js',
-//				tasks: ['smg']
-//			},
-//			JSfileAddedDeleted: {
-//				files: 'src/js/**/*.js',
-//				tasks: ['smg'],
-//				options: {
-//					event: ['added', 'deleted']
-//				}
-//			},
-//			bower: {
-//				files: 'bower.json',
-//				tasks: ['clean']
-//			}
 //		},
 		karma: {
 			unit: {
@@ -94,10 +64,21 @@ module.exports = function (grunt) {
 				'Gruntfile.js'
 			]
 		},
+		ngAnnotate: {
+			all: {
+				files: [
+					{
+						expand: true,
+						src: ['dist/ng-tools.js'],
+						rename: function (dest, src) { return src.split('.js')[0] + '.annotated.js'; }
+					}
+				]
+			}
+		},
 		uglify: {
 			dist: {
 				files: {
-					'dist/<%= pkg.name %>.min.js': 'dist/<%= pkg.name %>.js'
+					'dist/<%= pkg.name %>.min.js': 'dist/<%= pkg.name %>.annotated.js'
 				}
 			}
 		}
@@ -107,6 +88,7 @@ module.exports = function (grunt) {
 	/// future
 	grunt.registerTask('compile', [
 		'concat',
+		'ngAnnotate',
 		'uglify'
 	]);
 

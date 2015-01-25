@@ -16,6 +16,7 @@ module.exports = function(config) {
 			'./../bower_components/angular-mocks/angular-mocks.js',
 			'./../src/module.js',
 			'./../src/**/*.js',
+			{pattern: '**/*.jpg', watched: false, included: false, served: true},
 			'./../test/spec/**/*.js'
 		],
 

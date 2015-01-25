@@ -1,10 +1,9 @@
 /**
  * just very simple directive for managing loader element
  */
-angular.module('ngTools').service('loaderSvc',['$q', function ($q) {
+angular.module('ngTools').service('loaderSvc', function ($q) {
     this.deferred = $q.defer(); //when loading is finished, just resolve the deferred to fadeOut the element
-}]).directive('loader',
-    ['loaderSvc',function(loaderSvc) {
+}).directive('loader', function(loaderSvc) {
         return {
             restrict: 'A',
             link: function (scope, el, attrs) {
@@ -17,5 +16,5 @@ angular.module('ngTools').service('loaderSvc',['$q', function ($q) {
                 })
             }
         };
-    }]
+    }
 );

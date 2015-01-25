@@ -1,5 +1,13 @@
 //ng-tools version 0.5.0 
 angular.module('ngTools', []);
+angular.module('ngTools').directive('nGcontrollerAs', function() {
+	return {
+		compile: function(el, attrs) {
+			var ctrl = attrs['nGcontrollerAs'];
+			el.attr('ng-controller', ctrl + ' as ' + ctrl);
+		}
+	};
+});
 angular.module('ngTools').factory('debounce', ['$timeout', function ($timeout) {
 	/**
 	 * will cal fn once after timeout even if more than one call wdo debounced fn was made
@@ -28,6 +36,20 @@ angular.module('ngTools').factory('debounce', ['$timeout', function ($timeout) {
 	}
 	return debounce;
 }]);
+angular.module('ngTools').directive('fallbackSrc', function () {	//inspired by Rubens Mariuzzo's answer http://stackoverflow.com/a/16349631/671457
+	return {
+		link: function postLink(scope, elm, attrs) {
+			if (attrs.src === undefined && (attrs.ngSrc == undefined || attrs.ngSrc == null)) {
+				attrs.$set('src', attrs.fallbackSrc);
+			}
+			elm.on('error', function() {
+				if (attrs.src !== attrs.fallbackSrc) {
+					attrs.$set('src', attrs.fallbackSrc);
+				}
+			});
+		}
+	};
+});
 // thx to Leeroy Brun http://stackoverflow.com/a/21254635
 angular.module('ngTools').filter('trustHtml', ['$sce', function($sce){
 	return function(text) {
@@ -110,10 +132,9 @@ angular.module('ngTools').directive('ntIncludeInScope',
 /**
  * just very simple directive for managing loader element
  */
-angular.module('ngTools').service('loaderSvc',['$q', function ($q) {
+angular.module('ngTools').service('loaderSvc', function ($q) {
     this.deferred = $q.defer(); //when loading is finished, just resolve the deferred to fadeOut the element
-}]).directive('loader',
-    ['loaderSvc',function(loaderSvc) {
+}).directive('loader', function(loaderSvc) {
         return {
             restrict: 'A',
             link: function (scope, el, attrs) {
@@ -126,7 +147,7 @@ angular.module('ngTools').service('loaderSvc',['$q', function ($q) {
                 })
             }
         };
-    }]
+    }
 );
 // use on any element that has some A tags as children
 angular.module('ngTools').directive('markCurrentLinks', function () {
@@ -443,7 +464,7 @@ angular.module('ngTools').factory('Set', function () {
  * set which is automatically stored in local storage, offers events to hook up syncing to the server, depends on
  * storage injectable. storage injectable must have "get(key)" and "set(key, value)" method
  */
-angular.module('ngTools').factory('StoredSet',[ 'Set', 'storage', '$log',
+angular.module('ngTools').factory('StoredSet',
     /**
      *
      * @param Set
@@ -546,7 +567,7 @@ angular.module('ngTools').factory('StoredSet',[ 'Set', 'storage', '$log',
         }
     };
     return StoredSet;
-}]);
+});
 
 
 angular.module('ngTools').directive('longTextClass', function() {
@@ -598,86 +619,85 @@ angular.module('ngTools').directive('longTextClass', function() {
 		}
 	};
 });
-angular.module('ngTools').factory('urlize', ['$location', '$route', '$log', '$timeout',
-    function ($location, $route, $log, $timeout) {
+angular.module('ngTools').factory('urlize', function ($location, $route, $log, $timeout) {
 
-        var setScopeProp = true;
+	var setScopeProp = true;
 
-        /**
-         *
-         * @param {Object} scope
-         * @param {String} prop on scope, should be an object or undefined, if undefined, will be set to new Object
-         * @param {Boolean} asJson allows for more than one url synchronized objects
-         */
-        function urlize(scope, prop, asJson) {
-            if ($route.current) {
-                if ($route.current.$$route.reloadOnSearch !== false) {
-                    throw new Error('Current route reloads on search, reloadOnSearch should be set to false');
-                }
-            } else {
-                throw new Error('Urlize has to be used on route controller with reloadOnSearch set to false');
-            }
+	/**
+	 *
+	 * @param {Object} scope
+	 * @param {String} prop on scope, should be an object or undefined, if undefined, will be set to new Object
+	 * @param {Boolean} asJson allows for more than one url synchronized objects
+	 */
+	function urlize(scope, prop, asJson) {
+		if ($route.current) {
+			if ($route.current.$$route.reloadOnSearch !== false) {
+				throw new Error('Current route reloads on search, reloadOnSearch should be set to false');
+			}
+		} else {
+			throw new Error('Urlize has to be used on route controller with reloadOnSearch set to false');
+		}
 
-            if (!scope[prop]) {
-                scope[prop] = {};
-            }
+		if (!scope[prop]) {
+			scope[prop] = {};
+		}
 
-            var updateFromLocation;
-            if (asJson) {
-                updateFromLocation = function () {
-                    if (setScopeProp) {
-                        var inLoc = $location.search()[prop];
-                        if (inLoc) {
-                            if (!angular.isObject(inLoc)) {
-                                inLoc = JSON.parse(inLoc);
-                            }
-                            scope[prop] = inLoc;
-                        }
-                    }
+		var updateFromLocation;
+		if (asJson) {
+			updateFromLocation = function () {
+				if (setScopeProp) {
+					var inLoc = $location.search()[prop];
+					if (inLoc) {
+						if (!angular.isObject(inLoc)) {
+							inLoc = JSON.parse(inLoc);
+						}
+						scope[prop] = inLoc;
+					}
+				}
 
-                };
-            } else {
-                updateFromLocation = function () {
-                    if (setScopeProp) {
-                        var search = $location.search();
-                        angular.extend(scope[prop], search);
-                    }
+			};
+		} else {
+			updateFromLocation = function () {
+				if (setScopeProp) {
+					var search = $location.search();
+					angular.extend(scope[prop], search);
+				}
 
-                }
-            }
+			}
+		}
 
-            updateFromLocation();
+		updateFromLocation();
 
-            if (asJson) {
-                scope.$watch(prop, function (nV, oV) {
-                    if (nV) {
-                        if (angular.isObject(nV)) {
-                            nV = JSON.stringify(nV);
-                        }
-                        setScopeProp = false;
-                        $location.search(prop, nV);
-                        $timeout(function () {
-                            setScopeProp = true;
-                        });
-                    }
-                }, true);
-            } else {
-                scope.$watch(prop, function (nV, oV) {
-                    if (nV) {
-                        if (angular.isObject(nV)) {
-                            setScopeProp = false;
-                            $location.search(nV);
+		if (asJson) {
+			scope.$watch(prop, function (nV, oV) {
+				if (nV) {
+					if (angular.isObject(nV)) {
+						nV = JSON.stringify(nV);
+					}
+					setScopeProp = false;
+					$location.search(prop, nV);
+					$timeout(function () {
+						setScopeProp = true;
+					});
+				}
+			}, true);
+		} else {
+			scope.$watch(prop, function (nV, oV) {
+				if (nV) {
+					if (angular.isObject(nV)) {
+						setScopeProp = false;
+						$location.search(nV);
 
-                            $timeout(function () {
-                                setScopeProp = true;
-                            });
-                        }
-                    }
-                }, true);
-            }
+						$timeout(function () {
+							setScopeProp = true;
+						});
+					}
+				}
+			}, true);
+		}
 
-            scope.$on('$routeUpdate', updateFromLocation);
-        }
+		scope.$on('$routeUpdate', updateFromLocation);
+	}
 
-        return urlize;
-    }]);
+	return urlize;
+});
