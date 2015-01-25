@@ -5,6 +5,7 @@ collection of useful services/factories/directives/filters I like using in any A
 
 ##Directives:
 - include-in-scope
+- fallback-url for getting a custom image for wrong image src urls
 - markdown
 - mark-current-url directive(and asociated mark-current-if-any-child-is directive)
 - loader directive with loaderSvc for easy hiding spinners and other loader elements

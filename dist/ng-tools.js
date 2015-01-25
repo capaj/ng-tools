@@ -1,13 +1,5 @@
 //ng-tools version 0.5.0 
 angular.module('ngTools', []);
-angular.module('ngTools').directive('nGcontrollerAs', function() {
-	return {
-		compile: function(el, attrs) {
-			var ctrl = attrs['nGcontrollerAs'];
-			el.attr('ng-controller', ctrl + ' as ' + ctrl);
-		}
-	};
-});
 angular.module('ngTools').factory('debounce', ['$timeout', function ($timeout) {
 	/**
 	 * will cal fn once after timeout even if more than one call wdo debounced fn was made
