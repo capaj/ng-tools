@@ -1,7 +1,7 @@
 ng-tools
 ========
 
-collection of useful services/factories/directives/filters I like using in any Angular project, so far contains:
+collection of useful services/factories/directives/filters I liked using in any Angular project few years ago. NOT MAINTAINED anymore
 
 ## Directives:
 - include-in-scope
