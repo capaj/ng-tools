@@ -3,7 +3,7 @@ ng-tools
 
 collection of useful services/factories/directives/filters I like using in any Angular project, so far contains:
 
-##Directives:
+## Directives:
 - include-in-scope
 - fallback-url for getting a custom image for wrong image src urls
 - markdown
@@ -11,12 +11,12 @@ collection of useful services/factories/directives/filters I like using in any A
 - loader directive with loaderSvc for easy hiding spinners and other loader elements
 - promise-class
 
-##Factories
+## Factories
 - urlize factory for easy synchronization between scope object and url search params
 - debounce factory
 - set and stored set factories
 
-##Filters
+## Filters
 - trustHtml filter
 - trustUrl filter
 - localizeNumber filter which uses number.toLocaleString to render a number in local i18n format
